@@ -33,6 +33,9 @@ app.get('/', (req, res) => {
     res.send('Hello World!')
 })
 
+// We protect router which is used to create the admin, but not the auth router
+// Initially we created a admin without the middelware and include the token validate middleware
+// Now by authenticating we obtain a token which can be used in header of admin create
 app.use('/api', adminRouterUnprotected)
 app.use('/api', validateToken, adminRouterProtected)
 
