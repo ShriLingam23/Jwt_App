@@ -4,9 +4,12 @@ const cors = require('cors')
 
 const app = express()
 
+const db = require('./db')
+const { adminRouterProtected, adminRouterUnprotected } = require('./route')
+
 app.set('PORT', process.env.PORT || 5000)
 
-app.use(bodyParser.urlencoded({extended: true}))
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 app.use(
@@ -21,9 +24,14 @@ app.use(
     }),
 )
 
+db.on('error', console.error.bind(console, 'MongoDB connection error:'))
+
 app.get('/', (req, res) => {
     res.send('Hello World!')
 })
+
+app.use('/api', adminRouterProtected)
+app.use('/api', adminRouterUnprotected)
 
 app.listen(app.get('PORT'), () =>
     console.log(`Server running on port ${app.get('PORT')}`),
