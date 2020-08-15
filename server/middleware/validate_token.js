@@ -5,7 +5,7 @@ const config = require('../config')
 
 function getTokenFromHeaders(req) {
     const token =
-        req.body.token || req.query.token || req.headers['master-token']
+        req.body.token || req.query.token || req.headers['master-token'] //in header, we should include token with key 'master-token'
 
     return token
 }

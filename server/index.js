@@ -7,6 +7,9 @@ const app = express()
 const db = require('./db')
 const { adminRouterProtected, adminRouterUnprotected } = require('./route')
 
+// protecting our router with the middleware
+const validateToken = require('./middleware/validate_token')
+
 app.set('PORT', process.env.PORT || 5000)
 
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -30,8 +33,8 @@ app.get('/', (req, res) => {
     res.send('Hello World!')
 })
 
-app.use('/api', adminRouterProtected)
 app.use('/api', adminRouterUnprotected)
+app.use('/api', validateToken, adminRouterProtected)
 
 app.listen(app.get('PORT'), () =>
     console.log(`Server running on port ${app.get('PORT')}`),
