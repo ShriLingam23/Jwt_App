@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const bcrypt = require('bcrypt')
 const Schema = mongoose.Schema
 
 // bcrypt is a password hashing function based on the Blowfish cipher.
